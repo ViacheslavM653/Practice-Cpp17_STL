@@ -1,0 +1,46 @@
+Specifies the coordinate space to use. These include World, Object, Pref, and UV space coordinates. Pref is short for 'vertex in reference pose'. The plugin can pass these vertices to Arnold (in addition to the regular, deformed vertices) which can, in turn, be queried by the noise shader so that the noise 'sticks' to the reference pose and does not swim as the mesh deforms.
+
+Object space, where points are expressed relative to the local origin (center) of the object.
+World space, where points are relative to the global origin of the scene.
+Pref, which isn’t really a space, but rather a reference to a bind pose (note Pref does not work with NURBS surfaces).
+UV, for texturing using the object’s local UV coordinates. Note that this calls the faster 2D noise API, not the 3D noise like all other coordinate spaces.
+
+
+	
+Coord Space: Object (default)
+Coord Space: UV
+
+
+Below are animations that show pref_space coordinates in use with a deforming object. Note how the texture sticks to the object when using Pref space coordinates, compared to Object/World space coordinates where the texture swims.
+
+ 
+
+Using World/Object Space - Texture Swims
+
+ 
+
+Using Pref Space - Fixes Texture Swimming
+
+Pref Name
+Specify the name of the reference position user-data array. Previously, the name was hard-coded as "Pref", which is still the default. The array type can be RGB/RGBA as well as VECTOR.
+
+p
+
+Input coordinates of the 4D fractal noise function. The surface point is used when not defined (0). An arbitrary coordinate space can be specified manually by linking another shader into the P parameter. This is useful for all sorts of things such as being able to animate patterns flowing through objects, having patterns move along with objects, etc.
+
+For example, a coordinate system that you're animating to move the noise field through an object (a common technique for doing water running over a surface) or a coordinate system that is defined relative to a larger object (e.g. think of a spaceship that's comprised of many smaller objects, and you want to paint noise over the whole surface).
+
+U Angle
+Changes the U angle (for spherical and cylindrical mapping only).
+
+V Angle
+Changes the V angle (for spherical mapping only).
+
+Clamp Projection
+Only applies the projection if the position is inside a unit box/sphere/cylinder (depending on the projection mode), otherwise, it uses the Default Color (disabled by default).
+
+Default Color
+The color to be used for unmapped points. If you map a texture to a material in such a way that it that does not cover the entire surface, the Default Color (black) shows through. To select a different color, click the color bar to choose a different color. To change the texture's coverage, use the Placement Matrix.
+
+Matrix
+Defines the 3D texture’s positioning and orientation in world space. 
